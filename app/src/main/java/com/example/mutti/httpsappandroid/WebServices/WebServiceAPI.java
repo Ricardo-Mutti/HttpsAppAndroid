@@ -18,9 +18,7 @@ public class WebServiceAPI {
         this.activity = activity;
     }
 
-    public void postRequest(String json, String endPoint, Response.Listener successListener) {
-
-        String url = Constants.kServiceURL + endPoint;
+    public void postRequest(String json, String url, Response.Listener successListener) {
 
         Request request = new TrackBatchRequest(Request.Method.POST, activity, url, json, successListener);
 
@@ -29,9 +27,7 @@ public class WebServiceAPI {
         Log.d("Request:", request.toString());
     }
 
-    public void getRequest(String endPoint, Response.Listener successListener) {
-
-        String url = Constants.kServiceURL + endPoint;
+    public void getRequest(String url, Response.Listener successListener) {
 
         Request request = new TrackBatchRequest(Request.Method.GET, activity, url, null, successListener);
 

@@ -9,21 +9,43 @@
     tools:context="com.example.mutti.httpsappandroid.MainActivity">
 
     <Button
-        android:id="@+id/sendGetRequest"
+        android:id="@+id/sendHttpsGetRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="send get request"
+        android:text="send https get request"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/sendPostRequest"
+        android:id="@+id/sendHttpsPostRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="send post request"
+        android:layout_marginBottom="40dp"
+        android:text="send https post request"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/sendHttpGetRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="send http get request"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/sendHttpPostRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="send http post request"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

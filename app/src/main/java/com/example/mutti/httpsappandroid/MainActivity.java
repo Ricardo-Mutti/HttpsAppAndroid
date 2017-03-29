@@ -17,9 +17,13 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button buttonGetRequest;
-    Button buttonPostRequest;
+    Button buttonHttpsGetRequest;
+    Button buttonHttpsPostRequest;
+    Button buttonHttpGetRequest;
+    Button buttonHttpPostRequest;
     Activity activity = this;
+    String httpsUrl = Constants.kServiceHttpsURL;
+    String httpUrl = Constants.kServiceHttpURL;
     private WebServiceAPI wsAPI;
 
     @Override
@@ -27,17 +31,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        buttonGetRequest = (Button) findViewById(R.id.sendGetRequest);
-        buttonPostRequest = (Button) findViewById(R.id.sendPostRequest);
         wsAPI = new WebServiceAPI(activity);
 
+        buttonHttpsGetRequest = (Button) findViewById(R.id.sendHttpsGetRequest);
+        buttonHttpsPostRequest = (Button) findViewById(R.id.sendHttpsPostRequest);
 
-        //GET REQUEST
-        buttonGetRequest.setOnClickListener(new View.OnClickListener() {
+        buttonHttpGetRequest = (Button) findViewById(R.id.sendHttpGetRequest);
+        buttonHttpPostRequest = (Button) findViewById(R.id.sendHttpPostRequest);
+
+
+
+        final JSONObject request = new JSONObject();
+        try {
+            request.put("attribute1", "Prateada1");
+            request.put("attribute2", "Prateada2");
+        } catch (Exception e) {
+            Log.d("Error JSON", "Post error");
+        }
+
+
+//*********************** HTTPS ******************************
+
+        //GET HTTPS REQUEST
+        buttonHttpsGetRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                wsAPI.getRequest("get-batch", new Response.Listener<String>() {
+                wsAPI.getRequest(httpsUrl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {//Callback da resposta  pode ser um erro
                         Gson gson = new Gson();
@@ -55,18 +74,58 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //POST REQUEST
-        final JSONObject request = new JSONObject();
-        try {
-            request.put("productID", "Prateada");
-        } catch (Exception e) {
-            Log.d("Error JSON", "Batch manager");
-        }
+        //POST HTTPS REQUEST
 
-        buttonPostRequest.setOnClickListener(new View.OnClickListener() {
+        buttonHttpsPostRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                wsAPI.postRequest(request.toString(),"register-batch", new Response.Listener<String>() {
+                wsAPI.postRequest(request.toString(),httpsUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {//Callback da resposta  pode ser um erro
+                        Gson gson = new Gson();
+                        ServerResponse serverResponse = gson.fromJson(response, ServerResponse.class);//Parse do json segundo o modelo SeverResponse
+
+                        if (serverResponse.isSuccess()) {
+                            Toast.makeText(activity,serverResponse.getResponse().toString(), Toast.LENGTH_LONG ).show();
+
+                        } else {
+                            Toast.makeText(activity,serverResponse.getMessage().toString(), Toast.LENGTH_LONG ).show();
+                        }
+                    }
+                });
+            }
+        });
+
+//*********************** HTTP ******************************
+
+        //GET HTTP REQUEST
+        buttonHttpGetRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                wsAPI.getRequest(httpUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {//Callback da resposta  pode ser um erro
+                        Gson gson = new Gson();
+                        ServerResponse serverResponse = gson.fromJson(response, ServerResponse.class);//Parse do json segundo o modelo SeverResponse
+
+                        if (serverResponse.isSuccess()) {
+
+                            Toast.makeText(activity,serverResponse.getResponse().toString(), Toast.LENGTH_LONG ).show();
+
+                        } else {
+                            Toast.makeText(activity,serverResponse.getMessage().toString(), Toast.LENGTH_LONG ).show();
+                        }
+                    }
+                });
+            }
+        });
+
+        //POST HTTP REQUEST
+
+        buttonHttpPostRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                wsAPI.postRequest(request.toString(),httpUrl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {//Callback da resposta  pode ser um erro
                         Gson gson = new Gson();
@@ -83,6 +142,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-}
+    }
